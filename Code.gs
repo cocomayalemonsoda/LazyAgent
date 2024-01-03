@@ -113,6 +113,7 @@ var currentCategory = null;
   // saya ka?
   text += `/*---------------------Author's Note [${currentVersion}]---------------------\n`;
   text += `If you're interested in submitting your entries/requests, don't hesitate to contact me at rainville.tobias@gmail.com\n`;
+  text += `github link: https://github.com/cocomayalemonsoda/LazyAgent \n`
   text += `dasvidanya!\n`;
   text += `--------------------------------------------------------------------------------*/\n`;
 
