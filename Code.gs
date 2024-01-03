@@ -1,13 +1,14 @@
 function exportDataToAHKFile() {
-  var ownerEmail = "RainvilleT1@verifone.com"; // Replace with the actual owner's email
+  var ownerEmail = "rainville.tobias@gmail.com";
+  usersWithAccess =  ["raymundojarrymar@gmail.com", "roechile.guia@trecglobal.com", "rubyannsupangan1997@gmail.com", "sanjuanjoven5@gmail.com"]
 
   // Get the email of the current user
   var currentUser = Session.getActiveUser().getEmail();
 
   // Check if the current user is the owner
-  if (currentUser !== ownerEmail) {
+  if (currentUser !== ownerEmail || usersWithAccess.indexOf(currentUser) !== -1) {
   
-    Browser.msgBox('Chill,', 'pm mo muna ako kung need mo latest version :3', Browser.Buttons.OK);
+    Browser.msgBox('Chill,', 'pm mo muna kami kung need mo latest version :3', Browser.Buttons.OK);
     return;
   }
 
@@ -26,7 +27,8 @@ function exportDataToAHKFile() {
 
 var changelogVersion = maxVersion; // Initialize changelog version with maxVersion
 var customName = "Lazy Agent "; //include space
-var folderId = "1VCbLaWnryp33Ldirln3S5jhnR6wf2qSI";
+//1VCbLaWnryp33Ldirln3S5jhnR6wf2qSI
+var folderId = "13lkO41l5RAJA5-ZvcL1uzwOFM0OvIzK6";
 var currentCategory = null;
 
   // GUI
@@ -71,7 +73,7 @@ var currentCategory = null;
       text += `SendInput,\n(\n${hotstring}\n)\nreturn\n\n`;
    
     } else if (keyword === "lazyagentgui") {
-      //writeToC3.writeToC3();
+      writeToC3();
       text += `${hotstring}`;
 
     } else {
@@ -110,7 +112,7 @@ var currentCategory = null;
 
   // saya ka?
   text += `/*---------------------Author's Note [${currentVersion}]---------------------\n`;
-  text += `If you're interested in submitting your entries/requests, don't hesitate to contact me at RainvilleT1@verifone.com\n`;
+  text += `If you're interested in submitting your entries/requests, don't hesitate to contact me at rainville.tobias@gmail.com\n`;
   text += `dasvidanya!\n`;
   text += `--------------------------------------------------------------------------------*/\n`;
 
