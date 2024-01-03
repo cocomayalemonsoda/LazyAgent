@@ -12,9 +12,10 @@ var supportNames = [];
 var dicNames = [];
 var teamLeadNames = [];
 var outputText = "";
-var tsText = "";
-var tsText2 = "";
-var tsText3 = "";
+var bashScript_1 = ""; //Bash script#1
+var bashScript_2 = ""; //Bash script#2
+//var bashScript_3 = ""; //Bash script#3
+var commonTS = ""; //Common TS
 var resourceText = "";
 var resourceText2 = "";
 
@@ -107,7 +108,7 @@ textSheet3 += `; Variables\n`;
 textSheet3 += `UserSelection := ""\n`;
 textSheet3 += `UserName := ""\n`;
 
-textSheet3 += `Gui, Add, Text, x20 y20 w100 h20, Sinong Master mo?\n`;
+textSheet3 += `Gui, Add, Text, x20 y20 w100 h20,Primary Support?\n`;
 textSheet3 += `Gui, Add, DropDownList, x130 y20 w150 h180 vUserSelection, `;
 for (var i = 1; i < dataSheet3.length; i++) {
   var item = dataSheet3[i][0];
@@ -138,8 +139,11 @@ textSheet3 += `    Gui, Submit\n`;
 textSheet3 += `    UserName := UserName\n`;
 textSheet3 += `    MultilineMessage =\n`;
 textSheet3 += `    (\n`;
-textSheet3 += `Hi %UserName%, Master mo ngayon si %UserSelection% kaya umayos ka.\n\n`;
-textSheet3 += `Got entries/requests? pm RainvilleT1@verifone.com.\n`;
+textSheet3 += `Hi %UserName%, your Support for the day is %UserSelection%\n`;
+textSheet3 += `Please fill out the template completely and accurately.\n`;
+textSheet3 += `\n`;
+textSheet3 += `Lazy Agent was developed by Rainville Tobias.\n`;
+textSheet3 += `Special Thanks to Ms. Eiz, Kyle, Jeth, Jarry, Sheera, JV, Roechile\n`;
 textSheet3 += `Dasvidanya!\n`;
 textSheet3 += `)\n`;
 textSheet3 += `MsgBox, % MultilineMessage\n`;
@@ -321,31 +325,46 @@ var tsName1 = dataCommonTs[1][0];
 var tsSteps1 = dataCommonTs[1][1];
 var kbArticleUsed1 = dataCommonTs[1][2];
 if (tsName1.trim() !== "" && tsSteps1.trim() !== "") {
-  tsText += `    If (commonTsList = "${tsName1}") {\n`;
-  tsText += `    GuiControl,, outputField, ${tsSteps1}\n`;
-  tsText += `    GuiControl,, kbArticle, ${kbArticleUsed1}\n`;
-  tsText += `     return\n\n`
-  tsText += `    }\n`;
+  bashScript_1 += `    If (commonTsList = "${tsName1}") {\n`;
+  bashScript_1 += `    GuiControl,, outputField, ${tsSteps1}\n`;
+  bashScript_1 += `    GuiControl,, kbArticle, ${kbArticleUsed1}\n`;
+  bashScript_1 += `     return\n\n`
+  bashScript_1 += `    }\n`;
 }
 
-//mali lang name pero for 2nd bash script tong tsText3
 var tsName2 = dataCommonTs[2][0];
 var tsSteps2 = dataCommonTs[2][1];
-var kbArticleUsed2 = dataCommonTs[1][2];
+var kbArticleUsed2 = dataCommonTs[2][2];
 if (tsName2.trim() !== "" && tsSteps2.trim() !== "") {
-  tsText3 += `    else If (commonTsList = "${tsName2}") {\n`;
-  tsText3 += `    if (applicationList == "Buypass"){\n`
-  tsText3 += `    GuiControl,, outputField, ${tsSteps2}\n`;
-  //tsText3 += `    GuiControl,, kbArticle, ${kbArticleUsed2}\n`;
-  tsText3 += `     return\n`
-  tsText3 += `    } `
-  tsText3 += `    else {\n`
-  tsText3 += `    MsgBox, Warning: This will only work for Buypass Application!\n`
-  tsText3 += `     return\n\n`
-  tsText3 += `    }\n`
-  tsText3 += `    }\n`;
-
+  bashScript_2 += `    else If (commonTsList = "${tsName2}") {\n`;
+  bashScript_2 += `    if (applicationList == "Buypass"){\n`
+  bashScript_2 += `    GuiControl,, outputField, ${tsSteps2}\n`;
+  bashScript_2 += `    GuiControl,, kbArticle, ${kbArticleUsed2}\n`;
+  bashScript_2 += `     return\n`
+  bashScript_2 += `    } `
+  bashScript_2 += `    else {\n`
+  bashScript_2 += `    MsgBox, Warning: This will only work for Buypass Application!\n`
+  bashScript_2 += `     return\n\n`
+  bashScript_2 += `    }\n`
+  bashScript_2 += `    }\n`;
 }
+
+
+/*
+var tsName3 = dataCommonTs[3][0];
+var tsSteps3 = dataCommonTs[3][1];
+var kbArticleUsed3 = dataCommonTs[3][2];
+if (tsName3.trim() !== "" && tsSteps3.trim() !== "") {
+  bashScript_3 += `    else If (commonTsList = "${tsName3}") {\n`;
+  bashScript_3 += `    if (applicationList == "Buypass"){\n`
+  bashScript_3 += `    GuiControl,, outputField, ${tsSteps3}\n`;
+  bashScript_3 += `    GuiControl,, kbArticle, ${kbArticleUsed3}\n`;
+  bashScript_3 += `     return\n`
+  bashScript_3 += `    }\n`;
+}
+*/
+
+
 
 for (var i = 3; i < dataCommonTs.length; i++) {
   var tsNameNext = dataCommonTs[i][0];
@@ -353,17 +372,18 @@ for (var i = 3; i < dataCommonTs.length; i++) {
   var kbArticleUsedNext = dataCommonTs[i][2];
   
   if (tsNameNext.trim() !== "" && tsStepsNext.trim() !== "") {
-    tsText2 += `    else If (commonTsList = "${tsNameNext}") {\n`;
-    tsText2 += `        newTS := ExistingTS . "${tsStepsNext}"\n`;
-    tsText2 += `    GuiControl,, troubleShooting, %newTS%\n`;
-    tsText2 += `    GuiControl,, kbArticle, ${kbArticleUsedNext}\n`;
-    tsText2 += `     return\n\n`;
-    tsText2 += `    }\n`;
+    commonTS += `    else If (commonTsList = "${tsNameNext}") {\n`;
+    commonTS += `        newTS := ExistingTS . "${tsStepsNext}"\n`;
+    commonTS += `    GuiControl,, troubleShooting, %newTS%\n`;
+    commonTS += `    GuiControl,, kbArticle, ${kbArticleUsedNext}\n`;
+    commonTS += `     return\n\n`;
+    commonTS += `    }\n`;
   }
 }
-textSheet3 += tsText;
-textSheet3 += tsText3;
-textSheet3 += tsText2;
+textSheet3 += bashScript_1;
+textSheet3 += bashScript_2;
+//textSheet3 += bashScript_3;
+textSheet3 += commonTS;
 
 
 textSheet3 += `Resource:\n`;
